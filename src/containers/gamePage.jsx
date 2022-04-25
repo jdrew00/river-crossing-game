@@ -170,6 +170,11 @@ var initialList = [
     type: 2,
     name: 'Cabbage',
     conflicts: [1]
+  },
+  {
+    type: 3,
+    name: 'farmer',
+    conflicts: [-1]
   }
 ];
 
@@ -187,7 +192,7 @@ const ListWithRemoveItem = () => {
     incValue: 1
   });
 
-  const checkConflict = ( transferItems ) => {
+  const checkConflict = (transferItems) => {
 
     const ids = transferItems.map(x => (x.type))
 
@@ -198,44 +203,111 @@ const ListWithRemoveItem = () => {
     return hasConflict
   }
 
+  const checkFarmer = (transferItems) => {
+
+    const ids = transferItems.map(x => (x.type))
+
+    const hasConflict = transferItems.some(item => {
+      return ids.some(id => item.type === 3)
+    })
+
+    return hasConflict
+  }
+
+
   //list = initialList
   var varMovesHolder = 0
-
+  //&& (checkFarmer(list))
   const handleClick = type => {
-    if( !checkConflict(list.filter( item => item.type !== type)) && !checkConflict(list2.filter( item => item.type !== type))  ){
-      setList(list.filter(item => item.type !== type))
-    // list = list.filter(item => item.type !== type);
-    // list2 = list.filter(el => el.type === type);
+    if (!checkConflict(list.filter(item => item.type !== type)) && !checkConflict(list2.filter(item => item.type !== type)) && (checkFarmer(list))) {
 
-    setlist2(list2.concat(list.filter(item => item.type === type)));
+      var newList = []
 
-    setState((prevState) => {
-      return {
-        ...state,
-        count: prevState.count + state.incValue
-      };
-    });
+      if (type === 3) {
+        newList = newList.concat(list.filter(item => item.type !== 3))
+      } else {
+        newList = newList.concat(list.filter(item => item.type !== type && item.type !== 3))
+      }
+
+      setList(newList)
+
+
+      // newList = newList.concat(list.filter(item => item.type === type))
+      // newList = newList.concat(list.filter(item => item.type === 3))
+      // newList.concat(list2)
+
+      // setlist2(newList);
+
+      //newList = list2copy
+      //newList = newList.concat(list1.filter(item => item.type !== 3 && item.type !== type))
+
+      newList = []
+      if (type === 3) {
+        newList = newList.concat(list2)
+        newList = newList.concat(list.filter(item => item.type === 3))
+      } else {
+        newList = newList.concat(list2)
+        newList = newList.concat(list.filter(item => item.type === 3))
+        newList = newList.concat(list.filter(item => item.type === type))
+        //newList = newList.concat(list2.filter(item => item.type === type && item.type === 3))
+      }
+
+      setlist2(newList)
+
+      setState((prevState) => {
+        return {
+          ...state,
+          count: prevState.count + state.incValue
+        };
+      });
     }
-    
+
   };
 
   const handleClickList2 = type => {
 
-    if( !checkConflict(list2.filter( item => item.type !== type)) &&  !checkConflict(list.filter( item => item.type !== type))){
+    if (!checkConflict(list2.filter(item => item.type !== type)) && !checkConflict(list.filter(item => item.type !== type)) && checkFarmer(list2)) {
 
-    setlist2(list2.filter(item => item.type !== type))
-    // list = list.filter(item => item.type !== type);
-    // list2 = list.filter(el => el.type === type);
+      var newList = []
 
-    setList(list.concat(list2.filter(item => item.type === type)));
+      var list2copy = list2
+      var list1copy = list
 
-    setState((prevState) => {
-      return {
-        ...state,
-        count: prevState.count + state.incValue
-      };
-    });
-  }
+      if (type === 3) {
+        newList = newList.concat(list2.filter(item => item.type !== 3))
+      } else {
+        newList = newList.concat(list2.filter(item => item.type !== type && item.type !== 3))
+      }
+
+
+      //newList = newList.concat(list2.filter(item => item.type === 3))
+
+      setlist2(newList)
+      // list = list.filter(item => item.type !== type);
+      // list2 = list.filter(el => el.type === type);
+
+      newList = list1copy
+      //newList = newList.concat(list1.filter(item => item.type !== 3 && item.type !== type))
+
+      if (type === 3) {
+        newList = newList.concat(list2.filter(item => item.type === 3))
+      } else {
+        newList = newList.concat(list2.filter(item => item.type === 3))
+        newList = newList.concat(list2.filter(item => item.type === type))
+        //newList = newList.concat(list2.filter(item => item.type === type && item.type === 3))
+      }
+
+      setList(newList)
+
+      //setList(list.concat(list2.filter(item => item.type === type)));
+
+      setState((prevState) => {
+        return {
+          ...state,
+          count: prevState.count + state.incValue
+        };
+      });
+    }
 
   };
 
@@ -252,7 +324,7 @@ const ListWithRemoveItem = () => {
           <li key={item.type}>
             <label>{item.name}</label>
             <button type="button" onClick={() => handleClick(item.type)}>
-              Remove
+              Move Item
             </button>
           </li>
         ))}
@@ -262,7 +334,7 @@ const ListWithRemoveItem = () => {
           <li key={item.type}>
             <label>{item.name}</label>
             <button type="button" onClick={() => handleClickList2(item.type)}>
-              Remove
+              Move Item
             </button>
           </li>
         ))}

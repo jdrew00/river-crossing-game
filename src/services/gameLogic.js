@@ -15,7 +15,12 @@ var members = [
         type: 2,
         name: 'Cabbage',
         conflicts: [1]
-    }
+    },
+    {
+        type: 3,
+        name: 'farmer',
+        conflicts: [-1]
+      }
 ]
 
 // How I recommend you store the state (island 1, boat, island 2)
@@ -39,12 +44,35 @@ const checkConflict = (transferItems ) => {
     return !hasConflict
 }
 
+const checkFarmer = (transferItems) => {
+
+    const ids = transferItems.map(x => (x.type))
+
+    const hasConflict = transferItems.some(item => {
+      return ids.some(id => item.type === 3)
+    })
+
+    return hasConflict
+  }
+
+var list2 = [];
 console.log(members)
-console.log(checkConflict(members))
-console.log(checkConflict( [ members[2] , members[1] ] ))
-console.log(checkConflict( [ members[1] , members[2] ] ))
-console.log(checkConflict( [ members[1] , members[1] ] ))
-console.log(checkConflict( [ members[0] , members[1] ] ))
+console.log(checkFarmer(members))
+list2 = list2.concat(members.filter(item => item.type === 2))
+list2 = list2.concat(members.filter(item => item.type === 3))
+console.log(list2)
+members = members.filter(item => item.type !== 2)
+members = members.filter(item => item.type !== 3)
+console.log(members)
+//console.log(list2)
+members = members.filter(item => item.type !== 2)
+//console.log(list2)
+//setList(list.filter(item => item.type !== 3))
+// console.log(checkConflict(members))
+// console.log(checkConflict( [ members[2] , members[1] ] ))
+// console.log(checkConflict( [ members[1] , members[2] ] ))
+// console.log(checkConflict( [ members[1] , members[1] ] ))
+// console.log(checkConflict( [ members[0] , members[1] ] ))
 
 // members = members.filter( el => el.type !== 2 );
 // console.log(members)
