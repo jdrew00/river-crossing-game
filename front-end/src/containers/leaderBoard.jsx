@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
-
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-
-import DenseTable1 from './table1';
-import DenseTable2 from './table2';
-
-
-
-
+import JsonDataDisplay from './jsonTable';
 
 function LeaderBoard() {
 
@@ -23,8 +15,6 @@ function LeaderBoard() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-
 
   return (
     <Container style={{ backgroundColor: '#cfe8fc' }} maxWidth="lrg">
@@ -41,9 +31,9 @@ function LeaderBoard() {
               <Tab label="Level 3" value="3" />
             </TabList>
           </Box>
-          <TabPanel value="1"> <DenseTable1 /> </TabPanel>
-          <TabPanel value="2"><DenseTable2 />  </TabPanel>
-          <TabPanel value="3">Item Three</TabPanel>
+          <TabPanel value="1"> <JsonDataDisplay /> </TabPanel>
+          <TabPanel value="2">Future Scoreboard Two </TabPanel>
+          <TabPanel value="3">Future Scoreboard Three</TabPanel>
         </TabContext>
       </Box>
 

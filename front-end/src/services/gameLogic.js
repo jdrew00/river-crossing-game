@@ -55,17 +55,54 @@ const checkFarmer = (transferItems) => {
     return hasConflict
   }
 
+  function arrayEquals(a, b) {
+    return Array.isArray(a) &&
+      Array.isArray(b) &&
+      a.length === b.length &&
+      a.every((val, index) => val === b[index]);
+  }
+
+
+
 var list2 = [];
-console.log(members)
-console.log(checkFarmer(members))
-list2 = list2.concat(members.filter(item => item.type === 2))
-list2 = list2.concat(members.filter(item => item.type === 3))
-console.log(list2)
-members = members.filter(item => item.type !== 2)
-members = members.filter(item => item.type !== 3)
-console.log(members)
-//console.log(list2)
-members = members.filter(item => item.type !== 2)
+list2 = list2.concat(members)
+
+//console.log(list2.includes('farmer'))
+
+let found = false;
+
+if ( list2.some(d => d.name === 'farmer') && list2.some(d => d.name === 'Cabbage')  && list2.some(d => d.name === 'Wolf')  && list2.some(d => d.name === 'Chicken')      ) {
+    found = true;
+  }
+
+
+
+// for (let i = 0; i < list2.length; i++) {
+//   if (list2[i].name == 'farmer') {
+//     found = true;
+//     break;
+//   }
+// }
+
+console.log(found)
+
+
+//console.log("lists equal")
+// if(arrayEquals(list2, members)){
+//     console.log("lists equal")
+// }
+
+
+// console.log(members)
+// console.log(checkFarmer(members))
+// list2 = list2.concat(members.filter(item => item.type === 2))
+// list2 = list2.concat(members.filter(item => item.type === 3))
+// console.log(list2)
+// members = members.filter(item => item.type !== 2)
+// members = members.filter(item => item.type !== 3)
+// console.log(members)
+// //console.log(list2)
+// members = members.filter(item => item.type !== 2)
 //console.log(list2)
 //setList(list.filter(item => item.type !== 3))
 // console.log(checkConflict(members))
